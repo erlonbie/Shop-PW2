@@ -1,0 +1,42 @@
+openapi: 3.0.0
+info:
+  title: SHOP
+  description: Documentação da API utilizada como exercício da Disiciplina `Programação para Web 2`. A API contém os endpoints `index`, `create`, `read`, `update` e `delete` para os resources `usuarios` e `produtos`
+  contacts:
+    email: "https://github.com/erlonbie"
+  license:
+    name: "Erlon Bié"
+    url: "http://github.com/erlonbie"
+  version: 1.0.0
+servers:
+  - url: http://localhost:3001
+paths:
+  /user:
+    description: Descrição do Usuário
+    get:
+      description: Operação para achar usuário
+      parameters:
+        - in: query
+          name: nomeDoUsuário
+          required: true
+          schema:
+            type: String
+            example: Erlon
+      responses:
+        201:
+          description: Operação bem sucedida
+          content:
+            aplication/json:
+              schema:
+                type: array
+                items:
+                  properties:
+                    UsuarioID:
+                      type: hexadecimal
+                      example: e2b5c3
+                    UsuarioName:
+                      type: String
+                      example: Erlon
+                    UsuarioEmail:
+                      type: String
+                      example: erlon@icomp.ufam.edu.br

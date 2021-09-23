@@ -1,0 +1,290 @@
+swagger: "2.0"
+info:
+  description: Documentação da API utilizada como exercício da Disiciplina `Programação para Web 2`. A API contém os endpoints `index`, `create`, `read`, `update` e `delete` para os resources `user` e `product`
+  version: "1.0.0"
+  title: "Shop"
+  contact:
+    email: "erlon.bie@icomp.ufam.edu.br"
+  license:
+    name: "Apache 2.0"
+    url: "http://www.apache.org/licenses/LICENSE-2.0.html"
+host: "localhost:3001"
+tags:
+  - name: "user"
+    description: "CRUD operations for users"
+  - name: "product"
+    description: "CRUD operations for products"
+schemes:
+  - "http"
+paths:
+  /user/getList:
+    get:
+      tags:
+        - "user"
+      summary: "Get the list of usuarios"
+      description: "Returns a list of user object"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Usuario"
+        "400":
+          description: "Invalid status value"
+  /user/create:
+    post:
+      tags:
+        - "user"
+      summary: "Create an user"
+      description: "Returns a message saying if the operation was successful"
+      operationId: "findPetsByStatus"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Status values that need to be considered for filter"
+          required: true
+          schema:
+            $ref: "#/definitions/UsuarioBody"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Msg"
+        "400":
+          description: "Invalid status value"
+  /user/{usuarioID}:
+    get:
+      tags:
+        - "user"
+      summary: "Find user by ID"
+      description: "Returns a single user"
+      operationId: "getPetById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "usuarioID"
+          in: "path"
+          description: "ID of user to return"
+          required: true
+          schema:
+            $ref: "#definitions/IdQuery"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Usuario"
+        "400":
+          description: "Invalid ID supplied"
+    delete:
+      tags:
+        - "user"
+      summary: "Deletes a user"
+      description: ""
+      operationId: "deletePet"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "usuarioID"
+          in: "path"
+          description: "Usuario id to delete"
+          required: true
+          schema:
+            $ref: "#definitions/IdQuery"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Msg"
+        "404":
+          description: "Invalid ID supplied"
+    patch:
+      tags:
+        - "user"
+      summary: "Updates a user"
+      parameters:
+        - name: "usuarioID"
+          in: "path"
+          description: "Usuario id to delete"
+          required: true
+          schema:
+            $ref: "#definitions/IdQuery"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Msg"
+        "404":
+          description: "Invalid ID supplied"
+
+  /product/getList:
+    get:
+      tags:
+        - "product"
+      summary: "Get the list of products"
+      description: "Returns a list of product object"
+      produces:
+        - "application/json"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            type: "array"
+            items:
+              $ref: "#/definitions/Produto"
+        "400":
+          description: "Invalid status value"
+  /product/create:
+    post:
+      tags:
+        - "product"
+      summary: "Create an product"
+      description: "Returns a message saying if the operation was successful"
+      operationId: "findPetsByStatus"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "body"
+          in: "body"
+          description: "Status values that need to be considered for filter"
+          required: true
+          schema:
+            $ref: "#/definitions/ProdutoBody"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Msg"
+        "400":
+          description: "Invalid status value"
+  /product/{produtoID}:
+    get:
+      tags:
+        - "product"
+      summary: "Find product by ID"
+      description: "Returns a single product"
+      operationId: "getPetById"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "produtoID"
+          in: "path"
+          description: "ID of product to return"
+          required: true
+          schema:
+            $ref: "#definitions/IdQuery"
+      responses:
+        "200":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Produto"
+        "400":
+          description: "Invalid ID supplied"
+    delete:
+      tags:
+        - "product"
+      summary: "Deletes a product"
+      description: ""
+      operationId: "deletePet"
+      produces:
+        - "application/json"
+      parameters:
+        - name: "produtoID"
+          in: "path"
+          description: "Produto id to delete"
+          required: true
+          schema:
+            $ref: "#definitions/IdQuery"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Msg"
+        "404":
+          description: "Invalid ID supplied"
+    patch:
+      tags:
+        - "product"
+      summary: "Updates a product"
+      parameters:
+        - name: "produtoID"
+          in: "path"
+          description: "Produto id to delete"
+          required: true
+          schema:
+            $ref: "#definitions/IdQuery"
+      responses:
+        "201":
+          description: "successful operation"
+          schema:
+            $ref: "#/definitions/Msg"
+        "404":
+          description: "Invalid ID supplied"
+securityDefinitions:
+  petstore_auth:
+    type: "oauth2"
+    authorizationUrl: "http://petstore.swagger.io/oauth/dialog"
+    flow: "implicit"
+    scopes:
+      write:pets: "modify pets in your account"
+      read:pets: "read your pets"
+  api_key:
+    type: "apiKey"
+    name: "api_key"
+    in: "header"
+definitions:
+  Usuario:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+      id:
+        type: "integer"
+        format: "hexadecimal"
+    xml:
+      name: "Usuario"
+  UsuarioBody:
+    type: "object"
+    properties:
+      name:
+        type: "string"
+      email:
+        type: "string"
+  Produto:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      value:
+        type: "number"
+        format: "X.XXXXX"
+      id:
+        type: "integer"
+        format: "hexadecimal"
+    xml:
+      name: "Produto"
+  ProdutoBody:
+    type: "object"
+    properties:
+      description:
+        type: "string"
+      value:
+        type: "number"
+        format: "X.XXXXX"
+  Msg:
+    type: "object"
+    properties:
+      msg:
+        type: "string"
+  IdQuery:
+    type: "integer"
+    format: "xxxx-xxxx-xxxx-xxxx-xxxx"
+externalDocs:
+  description: "Find out more about the author"
+  url: "http://github.com/erlonbie"
