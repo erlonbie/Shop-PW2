@@ -14,7 +14,10 @@ module.exports = (sequelize, DataTypes) => {
   Usuario.init(
     {
       tipoUsuarioId: DataTypes.INTEGER,
-      nome: DataTypes.STRING,
+      nome: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
       email: DataTypes.STRING,
       senha: DataTypes.STRING,
     },
@@ -25,4 +28,3 @@ module.exports = (sequelize, DataTypes) => {
   );
   return Usuario;
 };
-
