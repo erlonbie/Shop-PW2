@@ -26,7 +26,7 @@ app.post("/product/create-img", upload.single("image"), (req, res) => {
   console.log(req.file);
   res.send("Single file upload success");
 });
-
+//comentário teste
 app.use(express.json());
 app.use("/user", usersRouter);
 app.use("/product", productRouter);
