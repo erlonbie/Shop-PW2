@@ -1,0 +1,277 @@
+{
+    "openapi": "3.0.3",
+    "info": {
+        "title": "Ecommerce Management API",
+        "description":"This api aims to simulate the operation of an e-commerce for learning and obtaining grades in the web 2 programming discipline.",
+        "contact": {
+            "email": "igor.carvalho@icomp.ufam.edu.br"
+        },
+        "version": "1.0.0"
+    },
+    "servers":[
+      {
+          "url":"http://localhost:3000/",
+          "description": "Test API"
+      }  
+    ],
+    "paths": {
+        "/products": {
+            "get": {
+                "summary": "Registered products",
+                "description": "This route is responsible for listing all products registered in the database",
+                "tags": ["Products"],
+                "responses":{
+                    "500":{
+                        "description": "Internal server error"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ProductResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "summary": "Product registration",
+                "description": "This route is responsible for registering a product in the database",
+                "tags": ["Products"],
+                "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "500":{
+                        "description": "Internal server error"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/Product"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },    
+        "/products/{productId}":{
+            "get":{
+                "summary": "Find the product by id",
+                "description": "This route is responsible for making a search for the product given its id",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                      "name": "productId",
+                      "in": "path",
+                      "description": "Id of product to return",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  ],
+                "responses":{
+                    "404":{
+                        "description": "Not found",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/NotFoundMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "description": "Internal server error"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/ProductResponse"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post":{
+                "summary": "Update the product by id",
+                "description": "This route is responsible for updating the product data given its id",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                      "name": "productId",
+                      "in": "path",
+                      "description": "Id of product to update",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  ],
+                  "requestBody": {
+                    "content": {
+                        "application/json":{
+                            "schema": {
+                                "type": "object",
+                                "$ref": "#/components/schemas/Product"
+                            }
+                        }
+                    }
+                },
+                "responses":{
+                    "404":{
+                        "description": "Not found",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/NotFoundMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "description": "Internal server error"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Updated product"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete":{
+                "summary": "Delete the product by id",
+                "description": "This route is responsible for deleting the product given its id",
+                "tags": ["Products"],
+                "parameters": [
+                    {
+                      "name": "productId",
+                      "in": "path",
+                      "description": "Id of product to remove",
+                      "required": true,
+                      "type": "integer",
+                      "format": "int64"
+                    }
+                  ],
+                "responses":{
+                    "404":{
+                        "description": "Not found",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/NotFoundMsg"
+                                }
+                            }
+                        }
+                    },
+                    "500":{
+                        "description": "Internal server error"
+                    },
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json":{
+                                "schema":{
+                                    "type": "object",
+                                    "properties":{
+                                        "msg": {
+                                            "type": "string",
+                                            "example": "Deleted product"
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "Product":{
+                "type": "object",
+                "properties":{
+                    "name":{
+                        "type": "string",
+                        "example": "Mouse wireless"
+                    },
+                    "price":{
+                        "type": "number",
+                        "example": 56.75
+                    },
+                    "inventory": {
+                        "type": "integer",
+                        "example": 300
+                    }
+                }
+            },
+            "ProductResponse":{
+                "type": "object",
+                "properties":{
+                    "name":{
+                        "type": "string",
+                        "example": "Mouse wireless"
+                    },
+                    "price":{
+                        "type": "string",
+                        "example": "56.75"
+                    },
+                    "inventory": {
+                        "type": "integer",
+                        "example": 300
+                    },
+                    "createdAt": {
+                        "type": "string",
+                        "example": "2021-10-11T17:41:22.000Z"
+
+                    },
+                    "updatedAt": {
+                        "type": "string",
+                        "example": "2021-10-11T18:49:46.000Z"
+                    }
+                }
+            },
+            "NotFoundMsg":{
+                "type": "object",
+                "properties":{
+                    "error":{
+                        "type": "string",
+                        "example": "Product not found"
+                    }
+                }
+            }
+        }
+    }
+}

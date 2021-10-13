@@ -1,5 +1,8 @@
 import { Op } from "sequelize";
 import { Produto } from "../models/index";
+import multer from "multer";
+// import path from "path";
+import fs from "fs";
 
 const index = async (req, res) => {
   try {
@@ -52,6 +55,41 @@ const remove = async (req, res) => {
   }
 };
 
+const fileStorageEngine = multer.diskStorage({
+  destination: (req, file, cb) => {
+    const { id } = req.params;
+    const path = `public/uploads/${id}`;
+    fs.mkdirSync(path, { recursive: true }, (err) => {});
+    cb(null, path);
+  },
+  filename: (req, file, cb) => {
+    cb(null, file.originalname);
+  },
+});
+
+const upload = multer({ storage: fileStorageEngine });
+
+const uploadImage = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const produto = await Produto.findByPk(id);
+    if (produto !== null) {
+      upload.single("image")(req, res, function (e) {
+        if (e instanceof multer.MulterError) {
+          res.status(500).json(e);
+        } else if (e) {
+          res.status(500).json(e);
+        }
+        res.send(req.file);
+      });
+    } else {
+      res.status(404).json({ msg: "produto não existe" });
+    }
+  } catch (e) {
+    res.status(500).json(e);
+  }
+};
+
 // const create2 = async (req, res) => {
 //   try {
 //     console.log(req.file);
@@ -95,4 +133,4 @@ const remove = async (req, res) => {
 //   res.status(200).json({ msg: "usuario apagado" });
 // };
 
-export default { index, create, read, update, remove };
+export default { index, create, read, update, remove, uploadImage };
