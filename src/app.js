@@ -1,31 +1,29 @@
 import express from "express";
 import usersRouter from "./routes/users";
+import usuariosRouter from "./routes/usuarios";
 import productRouter from "./routes/product";
-// import multer from "multer";
-// import path from "path";
+import cookieParser from "cookie-parser";
 
 require("dotenv").config();
 
 const app = express();
 
-// const fileStorageEngine = multer.diskStorage({
-//   destination: (req, file, cb) => {
-//     cb(null, path.join(__dirname, `../public/uploads/`));
-//   },
-//   filename: (req, file, cb) => {
-//     cb(null, file.originalname);
-//   },
-// });
-
-// const upload = multer({ storage: fileStorageEngine });
-
-// app.post("/product/create-img", upload.single("image"), (req, res) => {
-//   console.log(req.file);
-//   res.send("Single file upload success");
-// });
-//comentário teste
 app.use(express.json());
+app.use(cookieParser());
+
+app.use((req, res, next) => {
+  if (!("unidade" in req.cookies)) {
+    res.cookie("unidade", "Instituto de computação");
+    console.log("Cookie criado!");
+  } else {
+    console.log("Cookie já havia sido criado");
+    console.log(req.cookies);
+  }
+  next();
+});
+
 app.use("/user", usersRouter);
+app.use("/usuarios", usuariosRouter);
 app.use("/product", productRouter);
 
 app.listen(process.env.NODE_DOCKER_PORT, () => {
