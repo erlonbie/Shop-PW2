@@ -24,4 +24,22 @@ const create = async (req, res) => {
   }
 };
 
-export default { index, create };
+const indexTipo = async (req, res) => {
+  try {
+    const tipoUsuario = req.params.nome;
+    if (tipoUsuario === "cliente") {
+      const usuarios = await Usuario.findAll({ where: { tipoUsuarioId: 1 } });
+      res.send(usuarios);
+    } else if (tipoUsuario === "colaborador") {
+      const usuarios = await Usuario.findAll({ where: { tipoUsuarioId: 2 } });
+      res.send(usuarios);
+    } else {
+      res.send({ msg: "Tipo de usuário não encontrado" });
+    }
+  } catch (e) {
+    /* handle error */
+    res.status(500).send(e.message);
+  }
+};
+
+export default { index, create, indexTipo };

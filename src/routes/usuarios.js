@@ -4,5 +4,6 @@ const router = express.Router();
 
 router.get("/", usuarioController.index);
 router.post("/", usuarioController.create);
+router.get("/:nome", usuarioController.indexTipo);
 
 export default router;
