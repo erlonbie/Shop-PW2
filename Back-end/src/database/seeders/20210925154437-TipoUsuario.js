@@ -7,7 +7,7 @@ module.exports = {
       [
         {
           id: 1,
-          rotulo: "empregado",
+          rotulo: "colaborador",
           createdAt: new Date(),
           updatedAt: new Date(),
         },
