@@ -3,6 +3,7 @@ import express from "express";
 import { v4 as uuid } from "uuid";
 import session from "express-session";
 import routes from "./routes";
+import cors from "cors";
 
 require("dotenv").config();
 
@@ -10,6 +11,7 @@ const app = express();
 
 app.use(express.json());
 // app.use(cookieParser());
+app.use(cors({ origin: "http://localhost:3000", credentials: true }));
 
 app.use(
   session({

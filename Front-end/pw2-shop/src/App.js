@@ -1,24 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+// import Contador from "./components/Contador/Contador";
+import { BrowserRouter, Route, Switch } from "react-router-dom";
+import { Header, Produtos, Sobre } from "./components/index";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Header />
+      <div className="container-fluid mt-3">
+        <Switch>
+          <Route path="/" exact component={Produtos} />
+          <Route path="/sobre" component={Sobre} />
+        </Switch>
+      </div>
+    </BrowserRouter>
   );
 }
 
