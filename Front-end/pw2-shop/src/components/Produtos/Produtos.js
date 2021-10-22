@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
 function Produtos() {
   const [produtos, setProdutos] = useState([]);
@@ -32,12 +33,12 @@ function Produtos() {
         {searchString === ""
           ? produtos.map((prod) => (
               <li key={prod.id} className="list-group-item">
-                {prod.nome}
+                <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
               </li>
             ))
           : searchResult.map((prod) => (
               <li key={prod.id} className="list-group-item">
-                {prod.nome}
+                <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
               </li>
             ))}
       </ul>
