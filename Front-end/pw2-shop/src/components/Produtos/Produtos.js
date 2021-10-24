@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [searchResult, setSearchResult] = useState([]);
+  const history = useHistory();
 
   useEffect(() => {
     fetch("http://localhost:3001/product/getList", { credentials: "include" })
@@ -20,9 +21,20 @@ function Produtos() {
     //eslint-disable-next-line
   }, [searchString]);
 
+  const handleClick = () => {
+    history.push("/product/add");
+  };
+
   return (
     <div>
-      <h3>Listagem de Produtos</h3>
+      <div>
+        <h3 className="float-start">Listagem de Produtos</h3>
+        <div className="float-end">
+          <button onClick={handleClick} className="btn btn-primary">
+            +
+          </button>
+        </div>
+      </div>
       <input
         type="text"
         value={searchString}

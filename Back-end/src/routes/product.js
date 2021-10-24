@@ -4,7 +4,7 @@ import authUtils from "../utils/auth";
 const router = express.Router();
 
 router.get("/getList", productController.index);
-router.post("/create", authUtils.verifyAuth, productController.create);
+router.post("/create", productController.create); //adicionar verifyAuth
 router.get("/:id", productController.read);
 router.patch("/:id", productController.update);
 router.delete("/:id", productController.remove);

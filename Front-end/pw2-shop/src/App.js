@@ -1,5 +1,11 @@
 import { BrowserRouter, Route, Switch } from "react-router-dom";
-import { Header, Produtos, Sobre, Produto } from "./components/index";
+import {
+  Header,
+  Produtos,
+  Sobre,
+  Produto,
+  AddProduto,
+} from "./components/index";
 
 function App() {
   return (
@@ -8,6 +14,7 @@ function App() {
       <div className="container-fluid mt-3">
         <Switch>
           <Route path="/" exact component={Produtos} />
+          <Route path="/product/add" exact component={AddProduto} />
           <Route path="/product/:id" exact component={Produto} />
           <Route path="/sobre" component={Sobre} />
         </Switch>
