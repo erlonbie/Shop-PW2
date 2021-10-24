@@ -15,21 +15,31 @@ function Produto() {
         setProduto(json);
         console.log(json);
       });
-  }, []);
+  }, [id]);
 
-  const handleClick = () => {
-    history.goBack();
+  const handleEdit = () => {
+    history.push(`/product/${id}/edit`);
+  };
+
+  const handleDelete = () => {
+    fetch(`http://localhost:3001/product/${id}`, {
+      credentials: "include",
+      method: "DELETE",
+    })
+      .then((resp) => resp.json())
+      .then((json) => {
+        history.push(`/`);
+      });
   };
 
   return (
     <div>
       <div>
-        <h3 className="float-start">Listagem de Produtos</h3>
         <div className="float-end">
-          <button onClick={handleClick} className="btn btn-sm btn-primary m-2">
+          <button onClick={handleEdit} className="btn btn-sm btn-primary m-2">
             <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
           </button>
-          <button onClick={handleClick} className="btn btn-sm btn-danger m-2">
+          <button onClick={handleDelete} className="btn btn-sm btn-danger m-2">
             <FontAwesomeIcon icon={faTrashAlt}></FontAwesomeIcon>
           </button>
         </div>
