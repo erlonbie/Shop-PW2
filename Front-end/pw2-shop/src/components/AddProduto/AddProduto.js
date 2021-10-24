@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 
 function AddProduto() {
   const [nome, setNome] = useState("");
+  const [nomeError, setNomeError] = useState("");
   const [descricao, setDescricao] = useState("");
   const [preco, setPreco] = useState(0);
   const [estoque, setEstoque] = useState(10);
@@ -25,7 +26,7 @@ function AddProduto() {
         setIsPending(false);
         if (json.errors) {
           json.errors.forEach((error) => {
-            console.log(error);
+            if (error.path === "nome") setNomeError(error.message);
           });
         } else history.push(`/product/${json.id}`);
       });
@@ -44,8 +45,13 @@ function AddProduto() {
           value={nome}
           onChange={(e) => setNome(e.target.value)}
           id="nome"
-          className="form-control"
+          className={
+            nomeError === "" ? `form-control` : `form-control is-invalid`
+          }
         ></input>
+        <div className="invalid-feedback" style={{ display: "block" }}>
+          {nomeError}
+        </div>
         <label htmlFor="descricao" className="descricao mt-3">
           Descricao
         </label>
