@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useHistory, useParams } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEdit, faTrashAlt } from "@fortawesome/free-solid-svg-icons";
 
 function Produto() {
   const [produto, setProduto] = useState({});
@@ -21,12 +23,18 @@ function Produto() {
 
   return (
     <div>
-      <h3>
-        {produto.nome}{" "}
-        <button className="btn btn-sm btn-primary mx-2" onClick={handleClick}>
-          Voltar
-        </button>{" "}
-      </h3>
+      <div>
+        <h3 className="float-start">Listagem de Produtos</h3>
+        <div className="float-end">
+          <button onClick={handleClick} className="btn btn-sm btn-primary m-2">
+            <FontAwesomeIcon icon={faEdit}></FontAwesomeIcon>
+          </button>
+          <button onClick={handleClick} className="btn btn-sm btn-danger m-2">
+            <FontAwesomeIcon icon={faTrashAlt}></FontAwesomeIcon>
+          </button>
+        </div>
+      </div>
+      <h3>{produto.nome}</h3>
       <p>{produto.descricao}</p>
     </div>
   );
