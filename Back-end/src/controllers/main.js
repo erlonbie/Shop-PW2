@@ -24,7 +24,7 @@ const login = async (req, res) => {
           req.session.userId = usuario.id;
           res.send({ msg: "Usuário logado" });
         } else {
-          res.send({ msg: "Senha não confere" });
+          res.status(401).send({ msg: "Senha não confere" });
         }
       });
     } else {
