@@ -6,6 +6,7 @@ import {
   Produto,
   AddProduto,
   EditProduto,
+  Login,
 } from "./components/index";
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
           <Route path="/product/:id" exact component={Produto} />
           <Route path="/product/:id/edit" exact component={EditProduto} />
           <Route path="/sobre" component={Sobre} />
+          <Route path="/login" component={Login} />
         </Switch>
       </div>
     </BrowserRouter>

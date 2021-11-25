@@ -2,12 +2,14 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
+import { useSelector } from "react-redux";
 
 function Produtos() {
   const [produtos, setProdutos] = useState([]);
   const [searchString, setSearchString] = useState("");
   const [searchResult, setSearchResult] = useState([]);
   const history = useHistory();
+  const user = useSelector((state) => state.user);
 
   useEffect(() => {
     fetch("http://localhost:3001/product/getList", { credentials: "include" })
@@ -21,7 +23,7 @@ function Produtos() {
       )
     );
     //eslint-disable-next-line
-  }, [searchString]);
+  }, [searchString, produtos]);
 
   const handleClick = () => {
     history.push("/product/add");
@@ -31,11 +33,13 @@ function Produtos() {
     <div>
       <div>
         <h3 className="float-start">Listagem de Produtos</h3>
-        <div className="float-end">
-          <button onClick={handleClick} className="btn btn-sm btn-primary">
-            <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
-          </button>
-        </div>
+        {user.tipo === "colaborador" && (
+          <div className="float-end">
+            <button onClick={handleClick} className="btn btn-sm btn-primary">
+              <FontAwesomeIcon icon={faPlus}></FontAwesomeIcon>
+            </button>
+          </div>
+        )}
       </div>
       <input
         type="text"

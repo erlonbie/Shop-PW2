@@ -1,30 +1,54 @@
-import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useHistory } from "react-router-dom";
+import { logout } from "../../redux/slicer/userSlicer";
 
 function Header() {
+  const user = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+  const history = useHistory();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    history.push("/");
+  };
+
   return (
-    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
-      <Link className="navbar-brand ml-auto" to="/">
-        Navbar-teste
-      </Link>
-      <button
-        className="navbar-toggler"
-        type="button"
-        data-toggle="collapse"
-        data-target="#navbarNav"
-        aria-controls="navbarNav"
-        aria-expanded="false"
-        aria-label="Toggle navigation"
-      >
-        <span className="navbar-toggler-icon"></span>
-      </button>
-      <div className="collapse navbar-collapse" id="navbarNav">
-        <ul className="navbar-nav">
-          <li className="nav-item active">
-            <Link className="nav-link" to="/sobre">
-              Sobre
-            </Link>
-          </li>
-        </ul>
+    <nav className="navbar navbar-expand navbar-dark bg-dark">
+      <div className="container-fluid">
+        <div className="float-start">
+          <Link className="navbar-brand" to="/">
+            Minha Loja
+          </Link>
+        </div>
+        <div className="float-end">
+          <div className="navbar-collapse" id="navbarNav">
+            <ul className="navbar-nav">
+              <li className="nav-item">
+                <Link className="nav-link active" to="/sobre">
+                  Sobre
+                </Link>
+              </li>
+              {!user.logado && (
+                <li className="nav-item">
+                  <Link className="nav-link active" to="/login">
+                    Login
+                  </Link>
+                </li>
+              )}
+              {user.logado && (
+                <li className="nav-item">
+                  <a
+                    onClick={handleLogout}
+                    className="nav-link active"
+                    href="#"
+                  >
+                    Logout [{user.nome}]
+                  </a>
+                </li>
+              )}
+            </ul>
+          </div>
+        </div>
       </div>
     </nav>
   );
