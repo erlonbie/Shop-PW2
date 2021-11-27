@@ -7,7 +7,8 @@ function Header() {
   const dispatch = useDispatch();
   const history = useHistory();
 
-  const handleLogout = () => {
+  const handleLogout = (e) => {
+    e.preventDefault();
     dispatch(logout());
     history.push("/");
   };
@@ -40,7 +41,7 @@ function Header() {
                   <a
                     onClick={handleLogout}
                     className="nav-link active"
-                    href="#"
+                    href="/"
                   >
                     Logout [{user.nome}]
                   </a>
