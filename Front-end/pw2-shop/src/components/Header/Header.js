@@ -24,6 +24,20 @@ function Header() {
         <div className="float-end">
           <div className="navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
+              {user.tipo === "visitante" && (
+                <li className="nav-item">
+                  <Link className="nav-link active" to="/signup">
+                    Signup
+                  </Link>
+                </li>
+              )}
+              {user.tipo === "colaborador" && (
+                <li className="nav-item">
+                  <Link className="nav-link active" to="/signup">
+                    Colaborador +
+                  </Link>
+                </li>
+              )}
               <li className="nav-item">
                 <Link className="nav-link active" to="/sobre">
                   Sobre

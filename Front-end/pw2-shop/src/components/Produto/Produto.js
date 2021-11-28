@@ -79,7 +79,6 @@ function Produto() {
   );
 
   const qntLikes = useMemo(() => {
-    console.log("oi");
     return comentarios.filter((c) => c.like).length;
   }, [comentarios]);
 

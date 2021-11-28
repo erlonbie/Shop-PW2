@@ -14,8 +14,11 @@ const create = async (req, res) => {
   try {
     bcrypt.genSalt(parseInt(process.env.BRCYPT_ROUNDS), (err, salt) => {
       bcrypt.hash(req.body.senha, salt, async (err, hash) => {
+        if (req.body.nome.length < 5) {
+          res.status(401).send({ msg: "Senha menor que 5", criado: false });
+        }
         await Usuario.create({ ...req.body, senha: hash });
-        res.send({ msg: "Usuário criado" });
+        res.send({ msg: "Usuário criado", criado: true });
       });
     });
     // await Usuario.create(req.body);
@@ -42,4 +45,16 @@ const indexTipo = async (req, res) => {
   }
 };
 
-export default { index, create, indexTipo };
+const remove = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const found = await Usuario.destroy({ where: { id: id } });
+    if (found) res.send({ msg: "Usuario apagado" });
+    else res.status(404).json({ msg: "Usuario não existe" });
+  } catch (e) {
+    /* handle error */
+    res.status(500).send(e.message);
+  }
+};
+
+export default { index, create, indexTipo, remove };

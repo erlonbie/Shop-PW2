@@ -8,6 +8,7 @@ import {
   EditProduto,
   Login,
 } from "./components/index";
+import Signup from "./components/Signup/Signup";
 
 function App() {
   return (
@@ -21,6 +22,7 @@ function App() {
           <Route path="/product/:id/edit" exact component={EditProduto} />
           <Route path="/sobre" component={Sobre} />
           <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
         </Switch>
       </div>
     </BrowserRouter>
