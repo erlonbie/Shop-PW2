@@ -1,4 +1,10 @@
-import React, { useEffect, useState, useReducer, useCallback } from "react";
+import React, {
+  useEffect,
+  useState,
+  useReducer,
+  useCallback,
+  useMemo,
+} from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -72,6 +78,11 @@ function Produto() {
     [comentarios]
   );
 
+  const qntLikes = useMemo(() => {
+    console.log("oi");
+    return comentarios.filter((c) => c.like).length;
+  }, [comentarios]);
+
   return (
     <div>
       {user.tipo === "colaborador" && (
@@ -109,7 +120,10 @@ function Produto() {
         </button>
       </div>
       <div>
-        <h5>Comentários</h5>
+        <h5>
+          Comentários
+          <span className="badge rounded-pill bg-primary">{qntLikes}</span>
+        </h5>
         <form onSubmit={handleSubmit}>
           <input
             className="form-control"
