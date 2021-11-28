@@ -13,8 +13,9 @@ import {
   faPlus,
   faTrashAlt,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Comentario } from "../../components";
+import { addItem } from "../../redux/slicer/carrinhoSlicer";
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -32,6 +33,8 @@ function Produto() {
   const { id } = useParams();
   const history = useHistory();
   const user = useSelector((state) => state.user);
+  const carrinho = useSelector((state) => state.carrinho);
+  const carrinhoDispatch = useDispatch();
   const [state, dispatch] = useReducer(reducer, { count: 0 });
   const [comentarios, setComentarios] = useState([]);
   const [inputComentario, setInputComentario] = useState("");
@@ -82,6 +85,8 @@ function Produto() {
     return comentarios.filter((c) => c.like).length;
   }, [comentarios]);
 
+  console.log(carrinho.produtos);
+
   return (
     <div>
       {user.tipo === "colaborador" && (
@@ -116,6 +121,12 @@ function Produto() {
           className="btn btn-sm btn-primary float-start"
         >
           <FontAwesomeIcon icon={faPlus} />
+        </button>
+        <button
+          onClick={() => carrinhoDispatch(addItem(produto))}
+          className="btn btn-sm btn-primary float-end"
+        >
+          Adicionar
         </button>
       </div>
       <div>

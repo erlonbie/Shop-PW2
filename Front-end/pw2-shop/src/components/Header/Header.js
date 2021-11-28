@@ -1,9 +1,12 @@
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useHistory } from "react-router-dom";
 import { logout } from "../../redux/slicer/userSlicer";
 
 function Header() {
   const user = useSelector((state) => state.user);
+  const carrinho = useSelector((state) => state.carrinho);
   const dispatch = useDispatch();
   const history = useHistory();
 
@@ -24,6 +27,15 @@ function Header() {
         <div className="float-end">
           <div className="navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
+              <li className="nav-item mx-3">
+                <Link className="nav-link active" to="/carrinho">
+                  <FontAwesomeIcon
+                    className="float-end mt-1 mx-2"
+                    icon={faCartPlus}
+                  ></FontAwesomeIcon>
+                  {carrinho.quantidade}
+                </Link>
+              </li>
               {user.tipo === "visitante" && (
                 <li className="nav-item">
                   <Link className="nav-link active" to="/signup">

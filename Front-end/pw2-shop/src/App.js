@@ -7,6 +7,7 @@ import {
   AddProduto,
   EditProduto,
   Login,
+  Carrinho,
 } from "./components/index";
 import Signup from "./components/Signup/Signup";
 
@@ -23,6 +24,7 @@ function App() {
           <Route path="/sobre" component={Sobre} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
+          <Route path="/carrinho" component={Carrinho} />
         </Switch>
       </div>
     </BrowserRouter>
