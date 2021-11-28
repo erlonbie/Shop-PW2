@@ -14,14 +14,15 @@ const create = async (req, res) => {
   try {
     bcrypt.genSalt(parseInt(process.env.BRCYPT_ROUNDS), (err, salt) => {
       bcrypt.hash(req.body.senha, salt, async (err, hash) => {
-        if (req.body.nome.length < 5) {
-          res.status(401).send({ msg: "Senha menor que 5", criado: false });
+        try {
+          await Usuario.create({ ...req.body, senha: hash });
+          res.send({ msg: "Usuário criado", criado: true });
+        } catch (e) {
+          /* handle error */
+          res.status(500).send(e.message);
         }
-        await Usuario.create({ ...req.body, senha: hash });
-        res.send({ msg: "Usuário criado", criado: true });
       });
     });
-    // await Usuario.create(req.body);
   } catch (e) {
     res.status(500).send(e.message);
   }
