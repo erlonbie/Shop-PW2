@@ -24,7 +24,9 @@ function Produto() {
   const [erroEstoque, setErroEstoque] = useState(false);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/product/${id}`, { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API}/product/${id}`, {
+      credentials: "include",
+    })
       .then((resp) => resp.json())
       .then((json) => {
         setProduto(json);
@@ -37,7 +39,7 @@ function Produto() {
   };
 
   const handleDelete = () => {
-    fetch(`http://localhost:3001/product/${id}`, {
+    fetch(`${process.env.REACT_APP_API}/product/${id}`, {
       credentials: "include",
       method: "DELETE",
     })

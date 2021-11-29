@@ -15,7 +15,7 @@ function AddProduto() {
     setIsPending(true);
 
     e.preventDefault();
-    fetch("http://localhost:3001/product/create", {
+    fetch(`${process.env.REACT_APP_API}/product/create`, {
       method: "POST",
       credentials: "include",
       headers: { "Content-Type": "application/json" },

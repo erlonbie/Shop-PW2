@@ -12,7 +12,9 @@ function EditProduto() {
   const { id } = useParams();
 
   useEffect(() => {
-    fetch(`http://localhost:3001/product/${id}`, { credentials: "include" })
+    fetch(`${process.env.REACT_APP_API}/product/${id}`, {
+      credentials: "include",
+    })
       .then((resp) => resp.json())
       .then((json) => {
         setNome(json.nome);
@@ -27,7 +29,7 @@ function EditProduto() {
     setIsPending(true);
 
     e.preventDefault();
-    fetch(`http://localhost:3001/product/${id}`, {
+    fetch(`${process.env.REACT_APP_API}/product/${id}`, {
       method: "PATCH",
       credentials: "include",
       headers: { "Content-Type": "application/json" },
