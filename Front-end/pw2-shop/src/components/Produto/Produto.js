@@ -15,18 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { Comentario } from "../../components";
-import { addItem } from "../../redux/slicer/carrinhoSlicer";
-
-const reducer = (state, action) => {
-  switch (action.type) {
-    case "increment":
-      return { count: state.count + 1 };
-    case "decrement":
-      return state.count === 0 ? { count: 0 } : { count: state.count - 1 };
-    default:
-      throw new Error();
-  }
-};
+import { addItem, updateCarrinho } from "../../redux/slicer/carrinhoSlicer";
 
 function Produto() {
   const [produto, setProduto] = useState({});
@@ -35,9 +24,10 @@ function Produto() {
   const user = useSelector((state) => state.user);
   const carrinho = useSelector((state) => state.carrinho);
   const carrinhoDispatch = useDispatch();
-  const [state, dispatch] = useReducer(reducer, { count: 0 });
   const [comentarios, setComentarios] = useState([]);
   const [inputComentario, setInputComentario] = useState("");
+  const [qntdProd, setQntdProd] = useState(1);
+  const [erroEstoque, setErroEstoque] = useState(false);
 
   useEffect(() => {
     fetch(`http://localhost:3001/product/${id}`, { credentials: "include" })
@@ -85,7 +75,39 @@ function Produto() {
     return comentarios.filter((c) => c.like).length;
   }, [comentarios]);
 
-  console.log(carrinho.produtos);
+  const handleAdiciona = (e) => {
+    e.preventDefault();
+
+    const indiceExistente = carrinho.produtos.findIndex(
+      (i) => i.id === produto.id
+    );
+
+    if (indiceExistente !== -1) {
+      const tmp = carrinho.produtos[indiceExistente];
+      if (qntdProd + tmp.quantidade > tmp.estoque) {
+        setErroEstoque(true);
+        return;
+      }
+      carrinhoDispatch(
+        updateCarrinho({
+          id: tmp.id,
+          qnt: qntdProd,
+        })
+      );
+      history.push("/carrinho");
+    } else {
+      carrinhoDispatch(addItem({ ...produto, quantidade: qntdProd }));
+      history.push("/carrinho");
+    }
+  };
+
+  const increment = useCallback(() => {
+    if (qntdProd < produto.estoque) setQntdProd(qntdProd + 1);
+  }, [produto, qntdProd]);
+
+  const decrement = useCallback(() => {
+    if (qntdProd > 0) setQntdProd(qntdProd - 1);
+  }, [produto, qntdProd]);
 
   return (
     <div>
@@ -106,24 +128,37 @@ function Produto() {
       )}
       <h3>{produto.nome}</h3>
       <p>{produto.descricao}</p>
+      <p>Estoque: {produto.estoque}</p>
+      <p>Preço: {produto.preco}</p>
       <div className="clearfix">
+        <div className="float-start">
+          <button
+            onClick={decrement}
+            className="btn btn-sm btn-primary float-start"
+          >
+            <FontAwesomeIcon icon={faMinus} />
+          </button>
+          <h2 className="float-start mx-3" style={{ marginTop: "-4px" }}>
+            {qntdProd}
+          </h2>
+          <button
+            onClick={increment}
+            className="btn btn-sm btn-primary float-start"
+          >
+            <FontAwesomeIcon icon={faPlus} />
+          </button>
+
+          {erroEstoque && (
+            <div
+              className="invalid-feedback mt-3 float-end"
+              style={{ display: "inline" }}
+            >
+              "Quantidade Acima do estoque"
+            </div>
+          )}
+        </div>
         <button
-          onClick={() => dispatch({ type: "decrement" })}
-          className="btn btn-sm btn-primary float-start"
-        >
-          <FontAwesomeIcon icon={faMinus} />
-        </button>
-        <h2 className="float-start mx-3" style={{ marginTop: "-4px" }}>
-          {state.count}
-        </h2>
-        <button
-          onClick={() => dispatch({ type: "increment" })}
-          className="btn btn-sm btn-primary float-start"
-        >
-          <FontAwesomeIcon icon={faPlus} />
-        </button>
-        <button
-          onClick={() => carrinhoDispatch(addItem(produto))}
+          onClick={handleAdiciona}
           className="btn btn-sm btn-primary float-end"
         >
           Adicionar
@@ -134,6 +169,7 @@ function Produto() {
           Comentários
           <span className="badge rounded-pill bg-primary">{qntLikes}</span>
         </h5>
+
         <form onSubmit={handleSubmit}>
           <input
             className="form-control"

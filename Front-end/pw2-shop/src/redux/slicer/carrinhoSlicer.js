@@ -25,8 +25,16 @@ const carrinhoSlice = createSlice({
       };
     },
     clearCarrinho: (state) => initialState,
+    updateCarrinho: (state, action) => {
+      const indice = state.produtos.findIndex(
+        (i) => i.id === action.payload.id
+      );
+      console.log("o índice é: " + indice);
+      state.produtos[indice].quantidade += action.payload.qnt;
+    },
   },
 });
 
-export const { addItem, deleteItem, clearCarrinho } = carrinhoSlice.actions;
+export const { addItem, deleteItem, clearCarrinho, updateCarrinho } =
+  carrinhoSlice.actions;
 export default carrinhoSlice.reducer;

@@ -2,7 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { login } from "../../redux/slicer/userSlicer";
+import { clearCarrinho } from "../../redux/slicer/carrinhoSlicer";
 
 function Carrinho() {
   const [produtos, setProdutos] = useState([]);
@@ -10,7 +12,9 @@ function Carrinho() {
   const [searchResult, setSearchResult] = useState([]);
   const history = useHistory();
   const user = useSelector((state) => state.user);
+  const userDispatch = useDispatch();
   const carrinho = useSelector((state) => state.carrinho);
+  const [carrinhoVazioError, setCarrinhoVazioError] = useState(false);
 
   //useEffect(() => {
   //  fetch("http://localhost:3001/product/getList", { credentials: "include" })
@@ -34,6 +38,23 @@ function Carrinho() {
     history.push("/product/add");
   };
 
+  const handleCompra = (e) => {
+    e.preventDefault();
+    if (carrinho.quantidade !== 0) {
+      if (user.logado) {
+        history.push("/endereco");
+      } else {
+        history.push("/login");
+      }
+    } else {
+      setCarrinhoVazioError(true);
+    }
+  };
+
+  const handleClear = () => {
+    userDispatch(clearCarrinho());
+  };
+
   return (
     <div>
       <div>
@@ -45,6 +66,20 @@ function Carrinho() {
             </button>
           </div>
         )}
+        <button
+          onClick={handleCompra}
+          className="btn btn-sm btn-primary float-end"
+        >
+          Comprar
+        </button>
+
+        <button
+          onClick={handleClear}
+          style={{ backgroundColor: "red" }}
+          className="btn btn-sm btn-primary float-end mx-3"
+        >
+          Limpar
+        </button>
       </div>
       <input
         type="text"
@@ -57,11 +92,13 @@ function Carrinho() {
           ? produtos.map((prod) => (
               <li key={prod.id} className="list-group-item">
                 <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
+                <span className="float-end">{prod.quantidade}</span>
               </li>
             ))
           : searchResult.map((prod) => (
               <li key={prod.id} className="list-group-item">
                 <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
+                <span className="float-end">{prod.produto}</span>
               </li>
             ))}
       </ul>
