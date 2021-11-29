@@ -7,3 +7,4 @@ export { default as EditProduto } from "./EditProduto/EditProduto";
 export { default as Login } from "./Login/Login";
 export { default as Comentario } from "./Comentario/Comentario";
 export { default as Carrinho } from "./Carrinho/Carrinho";
+export { default as Endereco } from "./Endereco/Endereco";

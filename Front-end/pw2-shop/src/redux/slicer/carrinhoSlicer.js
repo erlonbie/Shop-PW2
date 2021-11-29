@@ -32,9 +32,20 @@ const carrinhoSlice = createSlice({
       console.log("o índice é: " + indice);
       state.produtos[indice].quantidade += action.payload.qnt;
     },
+    loginEndereco: (state, action) => {
+      return {
+        ...state,
+        logado: action.payload,
+      };
+    },
   },
 });
 
-export const { addItem, deleteItem, clearCarrinho, updateCarrinho } =
-  carrinhoSlice.actions;
+export const {
+  addItem,
+  deleteItem,
+  clearCarrinho,
+  updateCarrinho,
+  loginEndereco,
+} = carrinhoSlice.actions;
 export default carrinhoSlice.reducer;

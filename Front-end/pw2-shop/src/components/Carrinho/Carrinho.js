@@ -4,7 +4,10 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/slicer/userSlicer";
-import { clearCarrinho } from "../../redux/slicer/carrinhoSlicer";
+import {
+  clearCarrinho,
+  loginEndereco,
+} from "../../redux/slicer/carrinhoSlicer";
 
 function Carrinho() {
   const [produtos, setProdutos] = useState([]);
@@ -15,6 +18,9 @@ function Carrinho() {
   const userDispatch = useDispatch();
   const carrinho = useSelector((state) => state.carrinho);
   const [carrinhoVazioError, setCarrinhoVazioError] = useState(false);
+  const [soma, setSoma] = useState(0);
+  // let soma = 0;
+  const variavel_sempre_falsa = false;
 
   //useEffect(() => {
   //  fetch("http://localhost:3001/product/getList", { credentials: "include" })
@@ -34,6 +40,14 @@ function Carrinho() {
     setProdutos(carrinho.produtos);
   }, [carrinho.produtos]);
 
+  useEffect(() => {
+    var soma = 0;
+    for (let value of produtos) {
+      soma += value.preco * value.quantidade;
+    }
+    setSoma(Number(soma).toFixed(2));
+  }, [produtos]);
+
   const handleClick = () => {
     history.push("/product/add");
   };
@@ -44,6 +58,7 @@ function Carrinho() {
       if (user.logado) {
         history.push("/endereco");
       } else {
+        userDispatch(loginEndereco(true));
         history.push("/login");
       }
     } else {
@@ -87,21 +102,79 @@ function Carrinho() {
         onChange={(e) => setSearchString(e.target.value)}
         className="form-control mb-3"
       ></input>
-      <ul className="list-group">
-        {searchString === ""
-          ? produtos.map((prod) => (
-              <li key={prod.id} className="list-group-item">
-                <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
-                <span className="float-end">{prod.quantidade}</span>
-              </li>
-            ))
-          : searchResult.map((prod) => (
-              <li key={prod.id} className="list-group-item">
-                <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
-                <span className="float-end">{prod.produto}</span>
-              </li>
-            ))}
-      </ul>
+
+      {/* <ul> */}
+      {/*   <li> */}
+      {/*     <span className="float-end mx-3">Total(R$)</span> */}
+      {/*     <span className="float-end mx-3">Valor(R$)</span> */}
+      {/*     <span className="float-end mx-3">Quantidade</span> */}
+      {/*   </li> */}
+      {/* </ul> */}
+      {/* <ul className="list-group"> */}
+      {/*   {searchString === "" */}
+      {/*     ? produtos.map((prod) => ( */}
+      {/*         <li key={prod.id} className="list-group-item"> */}
+      {/*           <Link to={`/product/${prod.id}`}>{prod.nome}</Link> */}
+      {/*           <span className="float-end mx-3"> */}
+      {/*             {prod.quantidade * prod.preco} */}
+      {/*           </span> */}
+      {/*           <span className="float-end mx-3">{prod.preco}</span> */}
+      {/*           <span className="float-end mx-3">{prod.quantidade}</span> */}
+      {/*         </li> */}
+      {/*       )) */}
+      {/*     : searchResult.map((prod) => ( */}
+      {/*         <li key={prod.id} className="list-group-item"> */}
+      {/*           <Link to={`/product/${prod.id}`}>{prod.nome}</Link> */}
+      {/*           <span className="float-end">{prod.quantidade}</span> */}
+      {/*         </li> */}
+      {/*       ))} */}
+      {/* </ul> */}
+
+      <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">Produto</th>
+            <th scope="col" class="table-info">
+              Quantidade
+            </th>
+            <th scope="col" class="table-warning">
+              Valor (R$)
+            </th>
+            <th scope="col" class="table-danger">
+              Total (R$)
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          {searchString == ""
+            ? produtos.map((prod) => (
+                <tr key={prod.id}>
+                  <td>
+                    <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
+                  </td>
+                  <td>{prod.quantidade}</td>
+                  <td>{prod.preco}</td>
+                  <td>{Number(prod.preco * prod.quantidade).toFixed(2)}</td>
+                </tr>
+              ))
+            : searchResult.map((prod) => (
+                <tr key={prod.id}>
+                  <td>
+                    <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
+                  </td>
+                  <td>{prod.quantidade}</td>
+                  <td>{prod.preco}</td>
+                  <td>{prod.preco * prod.quantidade}</td>
+                </tr>
+              ))}
+          <tr>
+            <td>Total</td>
+            <td></td>
+            <td></td>
+            <td>{soma}</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
   );
 }

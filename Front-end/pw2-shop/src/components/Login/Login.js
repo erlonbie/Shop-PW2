@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { login } from "../../redux/slicer/userSlicer";
 import { useHistory } from "react-router-dom";
 
@@ -10,6 +10,7 @@ function Login() {
   const history = useHistory();
   const dispatch = useDispatch();
   const inputRef = useRef();
+  const carrinho = useSelector((state) => state.carrinho);
 
   const handleClick = (e) => {
     e.preventDefault();
@@ -30,7 +31,11 @@ function Login() {
         console.log(json);
         if (json.login !== false) {
           dispatch(login(json));
-          history.push("/");
+          if (carrinho.logado) {
+            history.push("/endereco");
+          } else {
+            history.push("/");
+          }
         }
       });
   };
