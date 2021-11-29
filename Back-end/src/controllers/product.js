@@ -44,6 +44,17 @@ const update = async (req, res) => {
   }
 };
 
+const update_pos_compra = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const [found] = await Produto.bulkUpdate(req.body, { where: { id: id } });
+    if (found) res.send({ msg: "Produto atualizado" });
+    else res.status(404).json({ msg: "Produto não existe" });
+  } catch (e) {
+    res.status(500).json(e);
+  }
+};
+
 const remove = async (req, res) => {
   try {
     const { id } = req.params;
@@ -133,4 +144,12 @@ const uploadImage = async (req, res) => {
 //   res.status(200).json({ msg: "usuario apagado" });
 // };
 
-export default { index, create, read, update, remove, uploadImage };
+export default {
+  index,
+  create,
+  read,
+  update,
+  remove,
+  uploadImage,
+  update_pos_compra,
+};

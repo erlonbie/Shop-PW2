@@ -7,6 +7,7 @@ router.get("/getList", productController.index);
 router.post("/create", authUtils.isColaborator, productController.create); //adicionar verifyAuth
 router.get("/:id", productController.read);
 router.patch("/:id", authUtils.isColaborator, productController.update);
+router.patch("/update/:id", productController.update_pos_compra);
 router.delete("/:id", authUtils.isColaborator, productController.remove);
 router.post("/img/:id", productController.uploadImage);
 

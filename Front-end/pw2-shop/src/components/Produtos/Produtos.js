@@ -49,11 +49,13 @@ function Produtos() {
       ></input>
       <ul className="list-group">
         {searchString === ""
-          ? produtos.map((prod) => (
-              <li key={prod.id} className="list-group-item">
-                <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
-              </li>
-            ))
+          ? produtos
+              .filter((i) => i.estoque > 0)
+              .map((prod) => (
+                <li key={prod.id} className="list-group-item">
+                  <Link to={`/product/${prod.id}`}>{prod.nome}</Link>
+                </li>
+              ))
           : searchResult.map((prod) => (
               <li key={prod.id} className="list-group-item">
                 <Link to={`/product/${prod.id}`}>{prod.nome}</Link>

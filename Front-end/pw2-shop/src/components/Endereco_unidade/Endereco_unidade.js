@@ -48,6 +48,26 @@ function Endereco_unidade() {
       };
     });
 
+    /* tentativa de atualizar o estoque :(  */
+    // for (let value in compraItem) {
+    //   let corpo = {
+    //     estoque:
+    //       carrinho.produtos.filter(
+    //         (i) => i.id === compraItem[value].produtoId
+    //       )[0].estoque - compraItem[value].quantidade,
+    //   };
+    //   fetch(`${process.env.REACT_APP_API}/product/update/${value.produtoId}`, {
+    //     credentials: "include",
+    //     method: "patch",
+    //     headers: {
+    //       "Content-type": "application/json",
+    //     },
+    //     body: JSON.stringify(corpo),
+    //   })
+    //     .then((resp) => resp.json())
+    //     .then((json) => json);
+    // }
+
     fetch(`${process.env.REACT_APP_API}/compraitem/`, {
       credentials: "include",
       method: "POST",
