@@ -12,7 +12,7 @@ function Produtos() {
   const user = useSelector((state) => state.user);
 
   useEffect(() => {
-    fetch("http://localhost:3001/product/getList", { credentials: "include" })
+    fetch(`http://localhost:3001/product/getList`, { credentials: "include" })
       .then((resp) => resp.json())
       .then((json) => setProdutos(json));
   }, []);

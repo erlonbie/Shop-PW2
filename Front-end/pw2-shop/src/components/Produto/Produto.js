@@ -1,10 +1,4 @@
-import React, {
-  useEffect,
-  useState,
-  useReducer,
-  useCallback,
-  useMemo,
-} from "react";
+import React, { useEffect, useState, useCallback, useMemo } from "react";
 import { useHistory, useParams } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -107,7 +101,7 @@ function Produto() {
 
   const decrement = useCallback(() => {
     if (qntdProd > 0) setQntdProd(qntdProd - 1);
-  }, [produto, qntdProd]);
+  }, [qntdProd]);
 
   return (
     <div>

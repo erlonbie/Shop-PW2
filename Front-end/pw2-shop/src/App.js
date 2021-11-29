@@ -9,6 +9,8 @@ import {
   Login,
   Carrinho,
   Endereco,
+  EditEndereco,
+  Endereco_unidade,
 } from "./components/index";
 import Signup from "./components/Signup/Signup";
 
@@ -26,7 +28,9 @@ function App() {
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="/carrinho" component={Carrinho} />
-          <Route path="/endereco" component={Endereco} />
+          <Route path="/endereco/add" exact component={EditEndereco} />
+          <Route path="/endereco/:id" exact component={Endereco_unidade} />
+          <Route path="/endereco" exact component={Endereco} />
         </Switch>
       </div>
     </BrowserRouter>

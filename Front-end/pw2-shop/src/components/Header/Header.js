@@ -55,6 +55,11 @@ function Header() {
                   Sobre
                 </Link>
               </li>
+              {/* <li className="nav-item"> */}
+              {/*   <Link className="nav-link active" to="/endereco"> */}
+              {/*     Endereco */}
+              {/*   </Link> */}
+              {/* </li> */}
               {!user.logado && (
                 <li className="nav-item">
                   <Link className="nav-link active" to="/login">

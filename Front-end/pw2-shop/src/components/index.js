@@ -8,3 +8,5 @@ export { default as Login } from "./Login/Login";
 export { default as Comentario } from "./Comentario/Comentario";
 export { default as Carrinho } from "./Carrinho/Carrinho";
 export { default as Endereco } from "./Endereco/Endereco";
+export { default as EditEndereco } from "./EditEndereco/EditEndereco";
+export { default as Endereco_unidade } from "./Endereco_unidade/Endereco_unidade";

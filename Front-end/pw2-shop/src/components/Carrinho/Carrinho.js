@@ -3,7 +3,6 @@ import { Link, useHistory } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlus } from "@fortawesome/free-solid-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
-import { login } from "../../redux/slicer/userSlicer";
 import {
   clearCarrinho,
   loginEndereco,
@@ -17,10 +16,7 @@ function Carrinho() {
   const user = useSelector((state) => state.user);
   const userDispatch = useDispatch();
   const carrinho = useSelector((state) => state.carrinho);
-  const [carrinhoVazioError, setCarrinhoVazioError] = useState(false);
   const [soma, setSoma] = useState(0);
-  // let soma = 0;
-  const variavel_sempre_falsa = false;
 
   //useEffect(() => {
   //  fetch("http://localhost:3001/product/getList", { credentials: "include" })
@@ -61,8 +57,6 @@ function Carrinho() {
         userDispatch(loginEndereco(true));
         history.push("/login");
       }
-    } else {
-      setCarrinhoVazioError(true);
     }
   };
 
@@ -130,23 +124,23 @@ function Carrinho() {
       {/*       ))} */}
       {/* </ul> */}
 
-      <table class="table">
+      <table className="table">
         <thead>
           <tr>
             <th scope="col">Produto</th>
-            <th scope="col" class="table-info">
+            <th scope="col" className="table-info">
               Quantidade
             </th>
-            <th scope="col" class="table-warning">
+            <th scope="col" className="table-warning">
               Valor (R$)
             </th>
-            <th scope="col" class="table-danger">
+            <th scope="col" className="table-danger">
               Total (R$)
             </th>
           </tr>
         </thead>
         <tbody>
-          {searchString == ""
+          {searchString === ""
             ? produtos.map((prod) => (
                 <tr key={prod.id}>
                   <td>
